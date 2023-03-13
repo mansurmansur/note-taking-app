@@ -17,7 +17,7 @@
             <div class="nav">
                 <ul class="nav-list">
                     <li class="list-item current">My Notes</li>
-                    <li class="list-item">New Note</li>
+                    <li class="list-item new-note-button">New Note</li>
                 </ul>
             </div>
         </div>
@@ -25,6 +25,30 @@
     <div class="main">
         <div class="container">
           
+        </div>
+    </div>
+    <div class="new-note-overlay">
+        <div class="container">
+            <div class="close"></div>
+            <div class="new-note">
+                <div class="new-note-title">
+                    <label for="title">Title</label>
+                    <br>
+                    <textarea name="title" id="title" cols="30" rows="1" value=""></textarea>
+                </div>
+                <div class="new-note-body">
+                    <label for="note">Note</label>
+                    <br>
+                    <textarea name="note" id="note"  vlaue=""></textarea>
+                </div>
+                <div class="buttons">
+                    <button class="save button">Save</button>
+                    <button class="clear button">Clear</button>
+                </div>
+                <div class="error">
+                    <p></p>
+                </div>
+            </div>
         </div>
     </div>
     <script type="module" src="JS/app.js"></script>

@@ -1,6 +1,6 @@
 # Note Taking application
 
-This is a web note taking application. The frontend of the application is coded in HTML, CSS & Vanilla JS.
+This is a web note taking application. The frontend of the application is coded in HTML, CSS & Vanilla JS. The application is deployed on Netlify server and for the backend it gets and adds data to a JSON mock api that is hosted on Render server.
 
 ## app functionalities
 

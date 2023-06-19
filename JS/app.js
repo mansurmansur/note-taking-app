@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", (_) => {
   switch (global.currentPage) {
     case "/":
     case "/index.html":
-      //render the notes.
-      renderNotes();
+      //render the notes & add event listeners
+      addEventListener();
       break;
     case "/note.html":
       //DOM
@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", (_) => {
       saveBtn.addEventListener("click", addNote);
       clearBtn.addEventListener("click", () => reset());
 
+<<<<<<< HEAD
       //TODO:
       // 2. add delete note
       break;
@@ -38,6 +39,8 @@ document.addEventListener("DOMContentLoaded", (_) => {
       // 1. add edit note
       let params = new URLSearchParams(document.location.search);
       console.log(params.get("id"));
+=======
+>>>>>>> 6333d277e1c6fd13e5b8cd5874683ca1f7bf145a
       break;
     default:
       break;
@@ -137,4 +140,17 @@ async function renderNotes() {
     `;
   });
   notesEl.innerHTML = notes;
+
+  return notesEl.children;
+}
+
+//adds eventlistner to each node
+async function addEventListener(){
+  const[...data] = await renderNotes();
+
+  data.forEach((note) => {
+    note.addEventListener('click', (ev) => {
+      location.href = '/note.html';
+    })
+  })
 }

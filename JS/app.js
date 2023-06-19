@@ -24,8 +24,8 @@ document.addEventListener("DOMContentLoaded", (_) => {
   switch (global.currentPage) {
     case "/":
     case "/index.html":
-      //render the notes.
-      renderNotes();
+      //render the notes & add event listeners
+      addEventListener();
       break;
     case "/note.html":
       //ontyping
@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", (_) => {
       noteTxtArea.addEventListener("change", () => (errorEL.display = "none"));
       saveBtn.addEventListener("click", addNote);
       clearBtn.addEventListener("click", () => reset());
+
       break;
     default:
       break;
@@ -119,4 +120,17 @@ async function renderNotes() {
     `;
   });
   notesEl.innerHTML = notes;
+
+  return notesEl.children;
+}
+
+//adds eventlistner to each node
+async function addEventListener(){
+  const[...data] = await renderNotes();
+
+  data.forEach((note) => {
+    note.addEventListener('click', (ev) => {
+      location.href = '/note.html';
+    })
+  })
 }

@@ -5,19 +5,6 @@ const global = {
   currentPage: window.location.pathname,
 };
 
-//DOM
-const notesEl = document.querySelector(".notes"); //container with notes
-const closeBtn = document.querySelector(".close");
-const newNotePage = document.querySelector(".new-note-overlay");
-const newNoteBtn = document.querySelector(".new-note-button");
-const clearBtn = document.querySelector(".clear");
-const saveBtn = document.querySelector(".save");
-const titleTxtArea = document.querySelector("#title");
-const noteTxtArea = document.querySelector("#note");
-const errorEL = document.querySelector(".error");
-const errorTxt = document.querySelector(".error p");
-const notes = document.querySelectorAll(".note");
-
 //routes
 //home page & adding note & editing existing note
 document.addEventListener("DOMContentLoaded", (_) => {
@@ -28,32 +15,58 @@ document.addEventListener("DOMContentLoaded", (_) => {
       renderNotes();
       break;
     case "/note.html":
+      //DOM
+      const errorEL = document.querySelector(".error");
+      const clearBtn = document.querySelector(".clear");
+      const saveBtn = document.querySelector(".save");
+      const titleTxtArea = document.querySelector("#title");
+      const noteTxtArea = document.querySelector("#note");
+      const editBtn = document.querySelector(".fa-trash");
+      const deleteBtn = document.querySelector(".fa-pencil");
+
       //ontyping
       titleTxtArea.addEventListener("change", () => (errorEL.display = "none"));
       noteTxtArea.addEventListener("change", () => (errorEL.display = "none"));
       saveBtn.addEventListener("click", addNote);
       clearBtn.addEventListener("click", () => reset());
+
+      //TODO:
+      // 2. add delete note
+      break;
+    case "/editnote.html":
+      //TODO:
+      // 1. add edit note
+      let params = new URLSearchParams(document.location.search);
+      console.log(params.get("id"));
       break;
     default:
       break;
   }
 });
 
-//validate user input and post it to the data file
+//add note to the backend, and also validate
+//TODO
+//  1. Proper validation and it should be its own function
 function addNote() {
-  if (titleTxtArea.value === "" && noteTxtArea.value === "") {
-    errorEL.style.display = "block";
+  const errorTxt = document.querySelector(".error p");
+  const title = document.querySelector("#title");
+  const note = document.querySelector("#note");
+
+  if (title.value === "" && note.value === "") {
+    document.querySelector(".error").style.display = "block";
     errorTxt.innerHTML = "Both title and note are empty. Please enter both !!!";
-  } else if (titleTxtArea === "" && noteTxtArea !== "") {
+  } else if (title.value === "" && note.value !== "") {
     errorTxt.innerHTML = "Both title is empty. Please enter title !!!";
-  } else if (titleTxtArea !== "" && noteTxtArea === "") {
+  } else if (title.value !== "" && note.value === "") {
     errorTxt.innerHTML = "Both note is empty. Please enter note !!!";
   } else {
     //add data to the json file
     const newnote = {
-      title: `${titleTxtArea.value}`,
-      notes: `${noteTxtArea.value}`,
+      title: `${title.value}`,
+      notes: `${note.value}`,
     };
+
+    //post the data to the backend
     postNote(newnote);
     reset();
   }
@@ -71,9 +84,9 @@ function checkText(text) {
 
 //reset the errors and texterrors
 function reset() {
-  errorEL.style.display = "none";
-  titleTxtArea.value = "";
-  noteTxtArea.value = "";
+  document.querySelector(".error").style.display = "none";
+  document.querySelector("#title").value = "";
+  document.querySelector("#note").value = "";
 }
 
 //fetch data
@@ -101,12 +114,17 @@ async function postNote(data) {
 
 //rendering the notes
 async function renderNotes() {
+  const notesEl = document.querySelector(".notes"); //container with notes
   const list = await getNotes();
 
   let notes = "";
   list.forEach((element) => {
     notes += `
-    <div class="note">
+    <div class="note id?${element.id}">
+    <div class="btns">
+      <i class="fa fa-trash" aria-hidden="true"></i>
+      <i class="fa fa-pencil" aria-hidden="true"></i>
+    </div>
     <div class="note-title">
         <h3>${element.title}</h3>
     </div>

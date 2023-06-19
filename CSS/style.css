@@ -104,6 +104,7 @@ a{
     background-color: white;
     border-radius: 10px;
     padding: 20px;
+    position: relative;
     width: 200px;
     height: fit-content;
     font-size: small;
@@ -116,16 +117,28 @@ a{
 .note p {
     height: 80%;
 }
-
+.btns{
+    position: absolute;
+    top: 0;
+    right: 10px;
+}
+.btns .fa{
+    padding:10px  5px ;
+    font-size: 16px;
+    color: rgb(67, 67, 173);
+}
+.btns .fa:hover{
+    opacity: .6;
+}
 /* new note */
-.new-note{
+.new-note, .edit-note{
     background-color: var(--primary-bg-color);
     width: 600px;
     margin: 15vh auto;
     border-radius: 10px;
     padding: 1s0px;
 }
-.new-note-title{
+.new-note-title, .note-title{
     margin-bottom: 30px;
 }
 label{
@@ -142,7 +155,7 @@ textarea{
     outline: none;
 }
 
-.new-note-body textarea{
+.new-note-body textarea, .note-body textarea{
     height: 200px;
 }
 

@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", (_) => {
       saveBtn.addEventListener("click", addNote);
       clearBtn.addEventListener("click", () => reset());
 
-<<<<<<< HEAD
       //TODO:
       // 2. add delete note
       break;
@@ -38,9 +37,10 @@ document.addEventListener("DOMContentLoaded", (_) => {
       //TODO:
       // 1. add edit note
       let params = new URLSearchParams(document.location.search);
-      console.log(params.get("id"));
-=======
->>>>>>> 6333d277e1c6fd13e5b8cd5874683ca1f7bf145a
+      let id = params.get("id");
+      console.log(id);
+      renderNote(id);
+
       break;
     default:
       break;
@@ -100,6 +100,16 @@ async function getNotes() {
   return data;
 }
 
+//get a single note
+async function getNote(id) {
+  console.log(id);
+  const results = await fetch(`https://notes-738m.onrender.com/notes/${id}`);
+
+  const data = await results.json();
+
+  return data;
+}
+
 //post data to the file
 async function postNote(data) {
   console.log(data);
@@ -145,12 +155,49 @@ async function renderNotes() {
 }
 
 //adds eventlistner to each node
-async function addEventListener(){
-  const[...data] = await renderNotes();
+async function addEventListener() {
+  const [...data] = await renderNotes();
 
-  data.forEach((note) => {
-    note.addEventListener('click', (ev) => {
-      location.href = '/note.html';
-    })
-  })
+  data.forEach((note, index) => {
+    //event listener to the note
+    note.lastElementChild.addEventListener("click", (ev) => {
+      let searchQuery = new URLSearchParams();
+      index += 1;
+      searchQuery.append("id", index);
+
+      location.href = "/editnote.html?" + searchQuery.toString();
+    });
+
+    //event listener to the edit
+    [...note.firstElementChild.children].forEach((child) => {
+      if (child.classList.contains("fa-trash")) {
+        child.addEventListener("click", () => {
+          //TODO: delete functionality
+        });
+      } else {
+        child.addEventListener("click", (ev) => {
+          let searchQuery = new URLSearchParams();
+          index += 1;
+          searchQuery.append("id", index);
+
+          location.href = "/editnote.html?" + searchQuery.toString();
+        });
+      }
+    });
+  });
+}
+
+//populate the note in the text areas
+async function renderNote(id) {
+  const data = await getNote(id);
+  //DOM
+  const titleEL =
+    document.querySelector(".edit-note").firstElementChild.lastElementChild;
+  const bodyEL =
+    document.querySelector(".edit-note").firstElementChild.nextElementSibling
+      .lastElementChild;
+
+  //add the notes
+  titleEL.value = data.title;
+  bodyEL.value = data.notes;
 }
